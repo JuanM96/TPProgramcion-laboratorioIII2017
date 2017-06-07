@@ -1,0 +1,112 @@
+<html lang="es">
+<head>
+<meta charset="utf8"/>
+<title>Estacionamiento</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<script type="text/javascript" src="script/cusel.js"></script>
+<script type="text/javascript" src="script/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="script/script.js"></script>
+<script src="script/jquery.bpopup.min.js" type="text/javascript"></script>
+<script src="script/jquery.slimscroll.js" type="text/javascript"></script>
+
+</head>
+<body>
+<div id="body_bottom">
+	<div id="head">
+	</div>
+	<div id="wrapper">
+		<div class="" id="menu">
+			<ul id="menu_p">
+				<li>
+				<a href="" id="inicio">Inicio</a>
+				<span></span>
+				</li>
+				<li>
+				<a href="" id="estado">Estado</a>
+				<span></span>
+				</li>
+				<li>
+				<a href="" id="entVehiculo">Entrada Vehiculo</a>
+				<span></span>
+				</li>
+                <li>
+				<a href="" id="salVehiculo">Salida Vehiculo</a>
+				<span></span>
+				</li>
+				<li>
+				<a href="" id="admin">Administración</a>
+				<span></span>
+				<ul>
+					<li><a href="" id="administrar">Administrar</a></li>
+					<li><a href="" id="altaEmpleado">Alta Empleado</a></li>
+					<li><a href="" id="bajaEmpelado">Baja Empleado</a></li>
+				</ul>
+				</li>
+			</ul>
+		</div>
+		<div id="content">
+			<div id="left_block">
+				<div class="block">
+					<div class="block_title">
+						<div class="bt_icon">
+							<img src="img/auth_icon.png" alt="">
+						</div>
+						<div class="bt_title">
+							 PANEL DE USUARIO
+						</div>
+					</div>
+					<div class="block_content">
+						<div id="login_block">
+							<div class="form_bg" id="login_form">
+								<form method="post" action="" name="login_form">
+									<input type="text" name="id" maxlength="10" class="login_field" value="USER ID">
+                                    <input type="password" name="password" class="login_field" value="PASSWORD" maxlength="12" size="16">
+                                    <button type="submit" name="login_submit">ENTRAR</button>
+									<!--<div class="recoverypass">
+										<a style="font-size: 14px;" href="">QueHAGO?</a>
+									</div>-->
+									<table width="190" border="0" align="center" cellpadding="0" cellspacing="4">
+									<input type="hidden" name="process_login">
+									</table>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="block">
+					<div class="block_content">
+						<div id="login_block">
+							<div class="form_bg">
+								<!--<div style="text-align:center;width:193px;padding:1em 0;"> <h2><a style="text-decoration:none;" href="http://www.zeitverschiebung.net/es/city/3436230"><span style="color:gray;">Hora actual en</span><br />Avellaneda, Argentina</a></h2> <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=es&timezone=America%2FArgentina%2FCordoba" width="100%" height="150" frameborder="0" seamless></iframe> <small style="color:gray;">&copy; <a href="http://www.zeitverschiebung.net/es/" style="color: gray;">Diferencia horaria</a></small> 
+								</div>-->
+								<table width='100%'>
+								<tr>
+									<td align='center'>
+										<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=4,0,2,0' width='145' height='178'>
+											<param name=movie value='http://www.websmultimedia.com/flash/wm_reloj.swf?_id1=1&_id2=6&_id3=1&_id4=5&_id5=5&_id6=2&_id7=1&_id8=2&_id9=0&_id10=0&_id11=2&_id12=1121&_id13=2&_id14=608&_id15=16646141&_id17=1' />
+											<param name=quality value=high />
+											<param name=wmode value=transparent />
+											<embed src='http://www.websmultimedia.com/flash/wm_reloj.swf?_id1=1&_id2=6&_id3=1&_id4=5&_id5=5&_id6=2&_id7=1&_id8=2&_id9=0&_id10=0&_id11=2&_id12=1121&_id13=2&_id14=608&_id15=16646141&_id17=1' quality=high wmode=transparent pluginspage='http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash' type='application/x-shockwave-flash' width='145' height='178' /></embed>
+										</object>
+									</td>
+								</tr>
+								<tr>
+									<td align='center'><span id="liveclock" style="left:0;top:0; font-size:25px; font-family:'Lucida Sans'"></span></td>
+								</tr>
+								</table>
+								<!--<span id="liveclock" style="left:0;top:0; font-size:25px; font-family:'Lucida Sans'"></span>-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="right_block">
+				<div class="explore">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
