@@ -37,7 +37,10 @@ function show5()
     var hours = Digital.getHours()
     var minutes = Digital.getMinutes()
     var seconds = Digital.getSeconds()
-
+    var date = Digital.getDate();
+    var days = ["Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"];
+    var day = days[Digital.getDay()];
+    
     var dn = "PM"
     if (hours < 12)
         dn = "AM"
@@ -51,7 +54,7 @@ function show5()
     if (seconds <= 9)
         seconds = "0" + seconds
     //change font size here to your desire
-    myclock = "<b>" + hours + ":" + minutes + ":" +
+    myclock = "<b>"+ date +" - "+ day +"<br>"+ hours + ":" + minutes + ":" +
         seconds + " " + dn + "</b>"
     if (document.layers) {
         document.layers.liveclock.document.write(myclock)
