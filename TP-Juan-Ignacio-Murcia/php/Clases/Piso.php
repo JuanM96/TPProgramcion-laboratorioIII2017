@@ -12,7 +12,7 @@ class Piso
     {
         $this->nombre = $nom;
         $this->password = $pass;
-        if ($nom == "admin" $$ $pass == "admin") {
+        if ($nom == "admin" && $pass == "admin") {
             $this->admin == 1;
         }
         else {
