@@ -65,6 +65,17 @@ class box
         }
         return $ret;
     }
+    public static function Borrar($id){
+        $ret = "ERROR,ID INEXISTENTE.";
+        $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("DELETE FROM `box` WHERE id = :id");
+        $consulta->bindValue(':id',$id, PDO::PARAM_STR);		
+		if($consulta->execute()){
+            $ret = "Se Borro el box Exitosamente.";
+        }
+        return $ret;
+    }
+
 
 }
 
