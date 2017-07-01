@@ -2,22 +2,16 @@
 /**
  * 
  */
+include_once("AccesoDatos.php");
 class Piso
 {
-    public $admin;
-    public $nombre;
-    public $password;
+    public $id;
+    public $cantBox;
 
-    function __construct($nom,$pass)
+    function __construct($id,$cantBox)
     {
-        $this->nombre = $nom;
-        $this->password = $pass;
-        if ($nom == "admin" && $pass == "admin") {
-            $this->admin == 1;
-        }
-        else {
-            $this->admin == 0;
-        }
+        $this->id = $id;
+        $this->cantBox = $cantBox;
     }
 }
 

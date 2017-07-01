@@ -3,15 +3,16 @@
  * 
  */
 include_once("AccesoDatos.php");
+include_once("Estacionamiento.php");
 class box
 {
     public $id;
-    public $idVehiculo;
+    public $patente;
     public $piso;
-    function __conINTuct($id,$idVehiculo,$piso)
+    function __conINTuct($id,$patente,$piso)
     {
         $this->id = $id;
-        $this->idVehiculo = $idVehiculo;
+        $this->patente = $patente;
         $this->piso = $piso;        
     }
     public function Guardar(){
@@ -19,9 +20,9 @@ class box
         $existebox = $this->Verificarbox();
         if ($existebox['resultado'] == false) {
             $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		    $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO `box`(`id`, `idVehiculo`, `piso`)VALUES (:id,:idVehiculo,:piso)");
-		    $consulta->bindValue(':id', $this->idVehiculo, PDO::PARAM_INT);
-            $consulta->bindValue(':idVehiculo', $this->idVehiculo, PDO::PARAM_INT);
+		    $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO `box`(`id`, `patente`, `piso`)VALUES (:id,:patente,:piso)");
+		    $consulta->bindValue(':id', $this->id, PDO::PARAM_INT);
+            $consulta->bindValue(':patente', $this->patente, PDO::PARAM_INT);
             $consulta->bindValue(':piso', $this->piso, PDO::PARAM_INT);
             $itsOk = $consulta->execute();
         }
@@ -35,13 +36,13 @@ class box
     }
     public static function TraerTodosboxes(){
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `id`, `idVehiculo`, `piso` FROM `box` WHERE 1");
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `id`, `patente`, `piso` FROM `box` WHERE 1");
 		$consulta->execute();
 		return $consulta->fetchAll(PDO::FETCH_CLASS, 'box');
     }
     public static function TraerboxPorid($id){
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `id`, `idVehiculo`, `piso` FROM `box` WHERE id = :id");
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `id`, `patente`, `piso` FROM `box` WHERE id = :id");
         $consulta->bindValue(':id',$id, PDO::PARAM_INT);
 		$consulta->execute();
         $consulta->setFetchMode(PDO::FETCH_CLASS, 'box');
@@ -50,9 +51,9 @@ class box
     }
     public function Verificarbox(){
         $objetoAccesoDatos = AccesoDatos::DameUnObjetoAcceso();
-        $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM `box` WHERE id = :id AND idVehiculo = :idVehiculo AND piso = :piso");
-        $consulta->bindValue(':id', $this->idVehiculo, PDO::PARAM_INT);
-        $consulta->bindValue(':idVehiculo', $this->idVehiculo, PDO::PARAM_INT);
+        $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM `box` WHERE id = :id AND patente = :patente AND piso = :piso");
+        $consulta->bindValue(':id', $this->id, PDO::PARAM_INT);
+        $consulta->bindValue(':patente', $this->patente, PDO::PARAM_INT);
         $consulta->bindValue(':piso', $this->piso, PDO::PARAM_INT);
         $consulta->setFetchMode(PDO::FETCH_CLASS, "box");
         if ($consulta->execute() && $ret['box'] = $consulta->fetch()) {
