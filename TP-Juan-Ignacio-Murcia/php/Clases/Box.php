@@ -81,18 +81,19 @@ class box
         }
         return $ret;
     }
-    public static function Borrar($id){
+    public static function Borrar($id,$piso){
         $ret = "ERROR,ID INEXISTENTE.";
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("DELETE FROM `box` WHERE id = :id");
-        $consulta->bindValue(':id',$id, PDO::PARAM_STR);		
+		$consulta =$objetoAccesoDato->RetornarConsulta("DELETE FROM `box` WHERE id = :id AND piso = :piso");
+        $consulta->bindValue(':id',$id, PDO::PARAM_INT);
+        $consulta->bindValue(':piso',$piso, PDO::PARAM_INT);		
 		if($consulta->execute()){
             $ret = "Se Borro el box Exitosamente.";
         }
         return $ret;
     }
 
-
+    
 }
 
 ?>

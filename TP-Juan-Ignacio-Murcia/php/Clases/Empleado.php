@@ -5,7 +5,7 @@
 include_once("AccesoDatos.php");
 class empleado
 {
-
+    public $id;
     public $nombre;
     public $apellido;
     public $email;
@@ -75,13 +75,13 @@ class empleado
     }
     public static function TraerTodosEmpleados(){
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `Nombre`, `Apellido`, `Email`, `Dni`, `Password`, `admin`, `suspendido` FROM empleado WHERE 1");
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `ID`, `Nombre`, `Apellido`, `Email`, `Dni`, `Password`, `admin`, `suspendido` FROM empleado WHERE 1");
 		$consulta->execute();
 		return $consulta->fetchAll(PDO::FETCH_CLASS, 'empleado');
     }
     public static function TraerEmpleadoPorDni($dni){
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `Nombre`, `Apellido`, `Email`, `Dni`, `Password`, `admin`, `suspendido` FROM empleado WHERE dni = :dni");
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `ID`, `Nombre`, `Apellido`, `Email`, `Dni`, `Password`, `admin`, `suspendido` FROM empleado WHERE dni = :dni");
         $consulta->bindValue(':dni',$dni, PDO::PARAM_STR);
 		$consulta->execute();
         $consulta->setFetchMode(PDO::FETCH_CLASS, 'empleado');

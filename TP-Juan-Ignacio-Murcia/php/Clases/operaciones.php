@@ -6,6 +6,7 @@ include_once("AccesoDatos.php");
 include_once("Estacionamiento.php");
 include_once("Box.php");
 include_once("Vehiculo.php");
+include_once("Empleado.php");
 class operacion
 {
     public $idBox;
@@ -31,7 +32,7 @@ class operacion
     }
     public function Guardar(){
         $itsOk = false;
-        $existeoperacion = $this->Verificaroperacion();
+        $existeoperacion = $this->VerificarOperacion();
         if ($existeoperacion['resultado'] == false) {
             $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
 		    $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO `operacion`(`idBox`, `idPiso`, `idEmpleado`, `idVehiculo`, `entrada`)VALUES (:idBox,:idPiso,:idEmpleado,:idVehiculo,NOW())");
@@ -50,16 +51,32 @@ class operacion
         return $ret;
 		
     }
+    public function VerificarOperacion(){
+        $objetoAccesoDatos = AccesoDatos::DameUnObjetoAcceso();
+        $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM operacion WHERE idBox = :idBox AND idPiso = idPiso AND salida = NULL");
+        $consulta->bindValue(':idBox', $this->idBox, PDO::PARAM_STR);
+        $consulta->bindValue(':idPiso', $this->idPiso, PDO::PARAM_STR);
+        $consulta->setFetchMode(PDO::FETCH_CLASS, "operacion");
+        if ($consulta->execute() && $ret['operacion'] = $consulta->fetch()) {
+            $ret['resultado'] = true;
+            
+        }
+        else {
+            $ret['resultado'] = false;
+        }
+        return $ret;
+    }
     public static function TraerTodasoperaciones(){
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
 		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `idBox`, `idPiso`, `idEmpleado`, `idVehiculo`, `entrada`, `salida`, `costo` FROM operacion WHERE 1");
 		$consulta->execute();
 		return $consulta->fetchAll(PDO::FETCH_CLASS, 'operacion');
     }
-    public static function TraeroperacionPorEmpleado($idEmpleado){
+    public static function TraeroperacionPorEmpleado($dni){
+        $empleado = empleado::TraerEmpleadoPorDni($dni);
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
 		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `idBox`, `idPiso`, `idEmpleado`, `idVehiculo`, `entrada`, `salida`, `costo` FROM operacion WHERE idEmpleado = :idEmpleado");
-        $consulta->bindValue(':idEmpleado',$idEmpleado, PDO::PARAM_STR);
+        $consulta->bindValue(':idEmpleado',$empleado->id, PDO::PARAM_STR);
 		$consulta->execute();
         $consulta->setFetchMode(PDO::FETCH_CLASS, 'operacion');
 		$operacionBuscado= $consulta->fetch();
@@ -79,6 +96,9 @@ class operacion
             if ($consulta2->execute()) {
                 return $costo;
             }
+        }
+        else {
+            return "Vehiculo Inexistente";
         }
         
     }
@@ -105,6 +125,15 @@ class operacion
         }
     }
 
-
+    public static function TraerOperacionPorPatente($patente){
+        $Vehiculo = Vehiculo::TraerVehiculoPorPatente($patente);
+        $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `idBox`, `idPiso`, `idEmpleado`, `idVehiculo`, `entrada`, `salida`, `costo` FROM operacion WHERE idVehiculo = :idVehiculo AND salida = NULL");
+        $consulta->bindValue(':idVehiculo',$vehiculo->id, PDO::PARAM_STR);
+		$consulta->execute();
+        $consulta->setFetchMode(PDO::FETCH_CLASS, 'operacion');
+		$operacionBuscado= $consulta->fetch();
+		return $operacionBuscado;
+    }
 
 }
