@@ -34,16 +34,32 @@ class box
         }
         return $ret;	
     }
-    public static function TraerTodosboxes(){
+    public static function TraerTodosboxesOcupados(){
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
 		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `id`, `patente`, `piso` FROM `box` WHERE 1");
 		$consulta->execute();
 		return $consulta->fetchAll(PDO::FETCH_CLASS, 'box');
     }
-    public static function TraerboxPorid($id){
+    public static function TraerTodosBoxesLibres(){
+        $ret = array();
+        $est= Estacionamiento::TraerEstacionamientoPorid(0);
+        for ($i=1; $i <= $est->cantPisos; $i++) {
+            $piso['pisoNum'] = $i;
+            $piso['boxesLibres'] = array();
+            for ($j=1; $j <= $est->cantBoxXPisos; $j++) { 
+                if(Box::TraerboxPoridYPiso($j,$i) == false){
+                    array_push($piso['boxesLibres'],$j);
+                }
+            }
+            array_push($ret,$piso);
+        }
+        return $ret;
+    }
+    public static function TraerboxPoridYPiso($id,$piso){
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `id`, `patente`, `piso` FROM `box` WHERE id = :id");
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `id`, `patente`, `piso` FROM `box` WHERE id = :id AND piso = :piso");
         $consulta->bindValue(':id',$id, PDO::PARAM_INT);
+        $consulta->bindValue(':piso',$piso, PDO::PARAM_INT);
 		$consulta->execute();
         $consulta->setFetchMode(PDO::FETCH_CLASS, 'box');
 		$boxBuscado= $consulta->fetch();

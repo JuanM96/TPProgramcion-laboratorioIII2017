@@ -2,7 +2,7 @@
 /**
  * 
  */
- include_once("AccesoDatos.php");
+include_once("AccesoDatos.php");
 class empleado
 {
     private $admin;
