@@ -12,5 +12,6 @@ class VehiculoApi
     public function traerVehiculo($request, $response, $args){
         return $response->withJson(vehiculo::TraerVehiculoPorPatente($request->getAttribute('patente')));
     }
+    
 }
 ?>

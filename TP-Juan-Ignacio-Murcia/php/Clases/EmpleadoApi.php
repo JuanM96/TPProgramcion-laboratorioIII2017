@@ -2,6 +2,7 @@
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 require_once 'Empleado.php';
+require_once 'LogEmpleado.php';
 require_once './vendor/autoload.php';
 class EmpleadoApi
 {
@@ -26,7 +27,12 @@ class EmpleadoApi
     public function Login($request, $response, $args){
         $dni = $request->getAttribute('dni');
         $password = $request->getAttribute('password');
-        return $response->withJson(Empleado::LogInVerificar($dni,$password));
+        $ret = $response->withJson(Empleado::LogInVerificar($dni,$password));
+        if ($ret['resultado']) {
+            $logEmpleado = new logEmpleado($dni);
+            $logEmpleado->Guardar();
+            return $ret;
+        }
     }
     public function traerEmpleados($request, $response, $args){
         return $response->withJson(Empleado::TraerTodosEmpleados());

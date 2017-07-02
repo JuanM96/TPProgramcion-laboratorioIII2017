@@ -97,7 +97,7 @@ class operacion
             if ($consulta2->execute()) {
                 $ret['resultado'] = true;
                 $ret['vehiculo'] = $vehiculo;
-                $ret['costo'] = $costo
+                $ret['costo'] = $costo;
             }
         }
         return $ret;
@@ -135,6 +135,62 @@ class operacion
         $consulta->setFetchMode(PDO::FETCH_CLASS, 'operacion');
 		$operacionBuscado= $consulta->fetch();
 		return $operacionBuscado;
+    }
+    public static function TraerCantOperacionPorEmpleado(){
+        $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT E.Nombre, COUNT(O.id) AS cantidad FROM `operaciones` AS O , empleado AS E WHERE E.ID = O.idEmpleado GROUP BY O.idEmpleado");
+		$consulta->execute();
+        $consulta->setFetchMode(PDO::FETCH_ASSOC);
+		$operacionesBuscadas= $consulta->fetchAll();
+        $json = json_encode($operacionesBuscadas);
+		return $json;
+    }
+    public static function TraerBoxesAnalizadas(){
+        $ret['boxMasUtilizada'] = operacion::BoxMasUltilizada();
+        $ret['boxMenosUtilizada'] = operacion::BoxMenosUltilizada();
+        $ret['boxsNuncaUtilizadas'] = operacion::BoxsNuncaUtilizadas();
+        return $ret;
+    }
+    public static function BoxMenosUltilizada(){
+        $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT O.idPiso,O.idBox, COUNT(O.id) AS cantidad FROM `operaciones` AS O GROUP BY O.idPiso,O.idBox ORDER BY `cantidad` ASC LIMIT 1");
+		$consulta->execute();
+        $consulta->setFetchMode(PDO::FETCH_ASSOC);
+		$box= $consulta->fetch();
+        return json_encode($box);
+    }
+    public static function BoxMasUltilizada(){
+        $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT O.idPiso,O.idBox, COUNT(O.id) AS cantidad FROM `operaciones` AS O GROUP BY O.idPiso,O.idBox ORDER BY `cantidad` DESC LIMIT 1");
+		$consulta->execute();
+        $consulta->setFetchMode(PDO::FETCH_ASSOC);
+		$box= $consulta->fetch();
+        return json_encode($box);
+    }
+    public static function BoxsNuncaUltilizadas(){
+        $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT O.idPiso,O.idBox, COUNT(O.id) AS cantidad FROM `operaciones` AS O GROUP BY O.idPiso,O.idBox");
+		$consulta->execute();
+        $consulta->setFetchMode(PDO::FETCH_ASSOC);
+		$boxes= $consulta->fetchAll();
+        $box;
+        $ret = array();
+        for ($i=1; $i <= 3 ; $i++) { 
+            for ($j=1; $j <= 20; $j++) { 
+                $flag = false;
+                for ($k=0; $k < count($boxes) ; $k++) { 
+                    if($boxes[$k]['idPiso'] == $i && $boxes[$k]['idBox'] == $j){
+                        $flag = true;
+                    }
+                }
+                if(!$flag){
+                    $box['idPiso'] = $i;
+                    $box['idBox'] = $j;
+                    array_push($ret,$box);
+                }
+            }
+        }
+        return $ret;
     }
 
 }

@@ -27,5 +27,11 @@ class OperacionApi
     public function TraerOperacionesPorEmpleado($request, $response, $args){
         return $response->withJson(operacion::TraeroperacionPorEmpleado($request->getAttribute('dni')));
     }
+    public function TraerCantidadOpPorEmpleado($request, $response, $args){
+        return $response->withJson(operacion::TraerCantOperacionPorEmpleado());
+    }
+    public function TraerBoxesAnalisadas($request, $response, $args){
+        return $response->withJson(operacion::TraerBoxesAnalizadas())
+    }
 }
 ?>
