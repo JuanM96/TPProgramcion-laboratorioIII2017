@@ -35,7 +35,7 @@ class estacionamiento
             $itsOk = $consulta->execute();
         }
         if ($itsOk) {
-            $ret = "El estacionamiento se guardo exitosamente";
+            $ret = "El estacionamiento se Creo exitosamente";
         }
         else {
             $ret = "ERROR, ya existe";

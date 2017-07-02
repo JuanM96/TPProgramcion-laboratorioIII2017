@@ -30,10 +30,10 @@ class Vehiculo
             $itsOk = $consulta->execute();
         }
         if ($itsOk) {
-            $ret = "El Auto se guardo exitosamente";
+            $ret['resultado'] = "Correcto";
         }
         else {
-            $ret = "ERROR, Vehiculo ya ocupado";
+            $ret['resultado'] = "ERROR";
         }
         return $ret;	
     }

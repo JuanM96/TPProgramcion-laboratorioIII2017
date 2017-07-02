@@ -27,10 +27,10 @@ class box
             $itsOk = $consulta->execute();
         }
         if ($itsOk) {
-            $ret = "El Auto se estaciono exitosamente";
+            $ret['resultado'] = "Correcto";
         }
         else {
-            $ret = "ERROR, box ya ocupado";
+            $ret['resultado'] = "ERROR";
         }
         return $ret;	
     }

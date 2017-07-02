@@ -3,7 +3,7 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 require_once 'Empleado.php';
 require_once './vendor/autoload.php';
-class EmplaedoApi
+class EmpleadoApi
 {
     public function AltaEmpleado($request, $response, $args){
         $Empleado = new empleado($request->getAttribute('nombre'),$request->getAttribute('apellido'),$request->getAttribute('email'),$request->getAttribute('dni'),$request->getAttribute('password'),$request->getAttribute('admin'),$request->getAttribute('suspendido'));
@@ -30,6 +30,9 @@ class EmplaedoApi
     }
     public function traerEmpleados($request, $response, $args){
         return $response->withJson(Empleado::TraerTodosEmpleados());
+    }
+    public function traerEmpleadoPorDni($request, $response, $args){
+        return $response->withJson(Empleado::TraerEmpleadoPorDni($request->getAttribute('dni')));
     }
 }
 ?>
