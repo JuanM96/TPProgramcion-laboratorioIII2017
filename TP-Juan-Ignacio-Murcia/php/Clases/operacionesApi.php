@@ -21,16 +21,11 @@ class OperacionApi
             return $ret;
         }
     }
-    public function Login($request, $response, $args){
-        $dni = $request->getAttribute('dni');
-        $password = $request->getAttribute('password');
-        return $response->withJson(operacion::LogInVerificar($dni,$password));
+    public function TraerOperaciones($request, $response, $args){
+        return $response->withJson(operacion::TraerTodasoperaciones());
     }
-    public function traeroperacions($request, $response, $args){
-        return $response->withJson(operacion::TraerTodosoperacions());
-    }
-    public function traeroperacionPorDni($request, $response, $args){
-        return $response->withJson(operacion::TraerEmpleadoPorDni($request->getAttribute('dni')));
+    public function TraerOperacionesPorEmpleado($request, $response, $args){
+        return $response->withJson(operacion::TraeroperacionPorEmpleado($request->getAttribute('dni')));
     }
 }
 ?>

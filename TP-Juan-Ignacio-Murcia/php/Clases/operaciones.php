@@ -83,6 +83,7 @@ class operacion
 		return $operacionBuscado;
     }
     public static function Salida($patente){
+        $ret['resultado'] = false;
         $Vehiculo = Vehiculo::TraerVehiculoPorPatente($patente);
         $objetoAccesoDatos = AccesoDatos::DameUnObjetoAcceso();
         $consulta = $objetoAccesoDatos->RetornarConsulta("UPDATE `operaciones` SET `salida`= NOW() WHERE costo = NULL AND idVehiculo = :idVehiculo");
@@ -94,12 +95,12 @@ class operacion
             $consulta2->bindValue(':costo', $costo , PDO::PARAM_STR);
             $consulta2->bindValue(':idVehiculo', $Vehiculo->id, PDO::PARAM_STR);
             if ($consulta2->execute()) {
-                return $costo;
+                $ret['resultado'] = true;
+                $ret['vehiculo'] = $vehiculo;
+                $ret['costo'] = $costo
             }
         }
-        else {
-            return "Vehiculo Inexistente";
-        }
+        return $ret;
         
     }
     public function CalcularCosto($idVehiculo,$idEstacionamiento){
