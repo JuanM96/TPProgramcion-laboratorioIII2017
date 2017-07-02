@@ -65,16 +65,17 @@ class operacion
 		$operacionBuscado= $consulta->fetch();
 		return $operacionBuscado;
     }
-    public static function Salida($idVehiculo){
+    public static function Salida($patente){
+        $Vehiculo = Vehiculo::TraerVehiculoPorPatente($patente);
         $objetoAccesoDatos = AccesoDatos::DameUnObjetoAcceso();
         $consulta = $objetoAccesoDatos->RetornarConsulta("UPDATE `operaciones` SET `salida`= NOW() WHERE costo = NULL AND idVehiculo = :idVehiculo");
-        $consulta->bindValue(':idVehiculo', $idVehiculo, PDO::PARAM_STR);
+        $consulta->bindValue(':idVehiculo', $Vehiculo->id, PDO::PARAM_STR);
         if ($consulta->execute()) {
-            $costo = $this->CalcularCosto($idVehiculo,1);
+            $costo = $this->CalcularCosto($Vehiculo->id,1);
             $objetoAccesoDatos2 = AccesoDatos::DameUnObjetoAcceso();
             $consulta2 = $objetoAccesoDatos->RetornarConsulta("UPDATE `operaciones` SET `costo`= :costo WHERE costo = NULL AND idVehiculo = :idVehiculo");
             $consulta2->bindValue(':costo', $costo , PDO::PARAM_STR);
-            $consulta2->bindValue(':idVehiculo', $idVehiculo, PDO::PARAM_STR);
+            $consulta2->bindValue(':idVehiculo', $Vehiculo->id, PDO::PARAM_STR);
             if ($consulta2->execute()) {
                 return $costo;
             }
@@ -82,27 +83,27 @@ class operacion
         
     }
     public function CalcularCosto($idVehiculo,$idEstacionamiento){
-            $vehiculo = Vehiculo::TraerVehiculoPorid($idVehiculo);
-            $estacionamiento = Estacionamiento::TraerEstacionamientoPorid($idEstacionamiento);
-            $objetoAccesoDatos = accesoDatos::DameUnObjetoAcceso();
-            $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT HOUR(TIMEDIFF(salida, entrada)) as `dif` FROM operaciones WHERE costo = NULL AND patente = :patente");
-            $consulta->bindValue(":patente", $vehiculo->patente, PDO::PARAM_STR);
-            if($consulta->execute()){
-                $numero = $consulta->fetch();
-            }
-            if($numero['dif'] > 24){
-                return $estacionamiento->precioXdia;
-            }
-            elseif($numero['dif'] > 12){
-                return $estacionamiento->precioXMedioDia;
-            }
-            elseif($numero['dif'] == 0){
-                return $estacionamiento->precioXHora;
-            }
-            else{
-                return ($numero['dif'] * $this->precioXHora);
-            }
+        $vehiculo = Vehiculo::TraerVehiculoPorid($idVehiculo);
+        $estacionamiento = Estacionamiento::TraerEstacionamientoPorid($idEstacionamiento);
+        $objetoAccesoDatos = accesoDatos::DameUnObjetoAcceso();
+        $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT HOUR(TIMEDIFF(salida, entrada)) as `dif` FROM operaciones WHERE costo = NULL AND patente = :patente");
+        $consulta->bindValue(":patente", $vehiculo->patente, PDO::PARAM_STR);
+        if($consulta->execute()){
+            $numero = $consulta->fetch();
         }
+        if($numero['dif'] > 24){
+            return $estacionamiento->precioXdia;
+        }
+        elseif($numero['dif'] > 12){
+            return $estacionamiento->precioXMedioDia;
+        }
+        elseif($numero['dif'] == 0){
+            return $estacionamiento->precioXHora;
+        }
+        else{
+            return ($numero['dif'] * $this->precioXHora);
+        }
+    }
 
 
 

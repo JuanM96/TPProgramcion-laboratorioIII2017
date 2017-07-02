@@ -4,6 +4,7 @@
  */
 class Vehiculo
 {
+    public $id;
     public $dueño;
     public $patente;
     public $marca;
@@ -29,7 +30,7 @@ class Vehiculo
             $itsOk = $consulta->execute();
         }
         if ($itsOk) {
-            $ret = "El Auto se estaciono exitosamente";
+            $ret = "El Auto se guardo exitosamente";
         }
         else {
             $ret = "ERROR, Vehiculo ya ocupado";
@@ -38,7 +39,7 @@ class Vehiculo
     }
     public static function TraerVehiculoPorPatente($patente){
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `dueño`, `patente`, `marca`, `color` FROM vehiculo WHERE patente = :patente");
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `id`, `dueño`, `patente`, `marca`, `color` FROM vehiculo WHERE patente = :patente");
         $consulta->bindValue(':patente',$patente, PDO::PARAM_STR);
 		$consulta->execute();
         $consulta->setFetchMode(PDO::FETCH_CLASS, 'vehiculo');

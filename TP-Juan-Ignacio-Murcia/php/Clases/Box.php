@@ -9,7 +9,7 @@ class box
     public $id;
     public $patente;
     public $piso;
-    function __conINTuct($id,$patente,$piso)
+    function __construct($id,$patente,$piso)
     {
         $this->id = $id;
         $this->patente = $patente;
