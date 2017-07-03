@@ -24,7 +24,7 @@ class EmpleadoApi
     }
     public function ActualizarEstadoEmpleado($request, $response, $args){
         $ArrayDeParametros = $request->getParsedBody();
-        $dni = $ArrayDeParametros['dni'];
+        $dni = intval($ArrayDeParametros['dni']);
         $empleado = Empleado::TraerEmpleadoPorDni($dni);
         return $response->withJson($empleado->ActualizarEstado());
     }

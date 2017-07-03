@@ -14,7 +14,7 @@ class empleado
     public $admin;
     public $suspendido;
 
-    function __construct($nom = null,$apellido = null,$email = null,$dni = null,$pass = null,$admin = null,$suspendido)
+    function __construct($nom = null,$apellido = null,$email = null,$dni = null,$pass = null,$admin = null,$suspendido = null)
     {
         if ($nom != null && $apellido != null && $email != null && $dni != null && $pass != null && $admin != null && $suspendido != null) {
             $this->nombre = $nom;
@@ -43,7 +43,7 @@ class empleado
             $itsOk = $consulta->execute();
         }
         if ($itsOk) {
-            $ret['respuesta'] = "El Empeado Se Guardo Exitosamente";
+            $ret['respuesta'] = "El Empleado Se Guardo Exitosamente";
         }
         else {
             $ret['respuesta'] = "ERROR, Empleado Ya Existente";
@@ -78,13 +78,13 @@ class empleado
     }
     public static function TraerTodosEmpleados(){
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `ID`, `Nombre`, `Apellido`, `Email`, `Dni`, `Password`, `admin`, `suspendido` FROM empleado WHERE 1");
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `ID` AS id, `Nombre` AS nombre, `Apellido` AS apellido, `Email` AS email, `Dni` AS dni, `Password` AS password, `admin`, `suspendido` FROM empleado WHERE 1");
 		$consulta->execute();
 		return $consulta->fetchAll(PDO::FETCH_CLASS, 'empleado');
     }
     public static function TraerEmpleadoPorDni($dni){
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `ID`, `Nombre`, `Apellido`, `Email`, `Dni`, `Password`, `admin`, `suspendido` FROM empleado WHERE dni = :dni");
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `ID` AS id, `Nombre` AS nombre, `Apellido` AS apellido, `Email` AS email, `Dni` AS dni, `Password` AS password, `admin`, `suspendido` FROM empleado WHERE dni = :dni");
         $consulta->bindValue(':dni',$dni, PDO::PARAM_STR);
 		$consulta->execute();
         $consulta->setFetchMode(PDO::FETCH_CLASS, 'empleado');
@@ -107,7 +107,7 @@ class empleado
     }
     public static function LogInVerificar($dni,$password){
         $objetoAccesoDatos = AccesoDatos::DameUnObjetoAcceso();
-        $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM empleado WHERE Dni = :dni AND Password = :password");
+        $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT `ID` AS id, `Nombre` AS nombre, `Apellido` AS apellido, `Email` AS email, `Dni` AS dni, `Password` AS password, `admin`, `suspendido`  FROM empleado WHERE Dni = :dni AND Password = :password");
         $consulta->bindValue(':dni', $this->dni, PDO::PARAM_STR);
         $consulta->bindValue(':password', $this->password, PDO::PARAM_STR);
         $consulta->setFetchMode(PDO::FETCH_CLASS, "empleado");
@@ -121,12 +121,19 @@ class empleado
     }
     public function ActualizarEstado(){
         $ret;
-        $this->suspendido = !$this->suspendido;
+        $suspender = !($this->suspendido);
+        // if ($this->suspendido) {
+        //     $this->suspendido = false;
+        // }
+        // else{
+        //     $this->suspendido = true;
+        // }
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-        $consulta =$objetoAccesoDato->RetornarConsulta("UPDATE `empleado` SET suspendido`=:suspendido WHERE 1");
-        $consulta->bindValue(':suspendido', $nuevoEmpleado->suspendido, PDO::PARAM_BOOL);
-        $consulta->execute();
-        if ($this->suspendido) {
+        $consulta =$objetoAccesoDato->RetornarConsulta("UPDATE `empleado` SET suspendido = :suspendido WHERE dni = :dni");
+        $consulta->bindValue(':suspendido', $suspender, PDO::PARAM_BOOL);
+        $consulta->bindValue(':dni', $this->dni, PDO::PARAM_INT);        
+        $ret['consulta'] = $consulta->execute();
+        if ($suspender) {
             $ret['resultado'] = "Suspendido";
         }
         else{
