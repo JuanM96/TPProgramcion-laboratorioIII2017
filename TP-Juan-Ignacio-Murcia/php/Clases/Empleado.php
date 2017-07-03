@@ -64,7 +64,7 @@ class empleado
             $consulta->bindValue(':dniBuscado', $dni, PDO::PARAM_STR);
             $consulta->bindValue(':password', $nuevoEmpleado->password, PDO::PARAM_STR);
             $consulta->bindValue(':admin', $nuevoEmpleado->admin, PDO::PARAM_STR);
-            $consulta->bindValue(':suspendido', $nuevoEmpleado->suspendido, PDO::PARAM_BOOL);
+            $consulta->bindValue(':suspendido', $nuevoEmpleado->suspendido, PDO::PARAM_INT);
             $itsOk = $consulta->execute();
         }
         if ($itsOk) {
@@ -131,7 +131,7 @@ class empleado
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
         $consulta =$objetoAccesoDato->RetornarConsulta("UPDATE `empleado` SET suspendido = :suspendido WHERE dni = :dni");
         $consulta->bindValue(':suspendido', $suspender, PDO::PARAM_BOOL);
-        $consulta->bindValue(':dni', $this->dni, PDO::PARAM_INT);        
+        $consulta->bindValue(':dni', $this->dni, PDO::PARAM_INT);
         $ret['consulta'] = $consulta->execute();
         if ($suspender) {
             $ret['resultado'] = "Suspendido";
