@@ -23,9 +23,9 @@ class Vehiculo
         }
 
     }
-	public function ID(){
-		$ret = $this->TraerVehiculoPorPatente($this->patente);
-		return $ret->id;
+	public static function IDTraer($patente){
+		$ret = Vehiculo::TraerVehiculoPorPatente($patente);
+		return intval($ret->id);
 	}
     public function Guardar(){
         $itsOk = false;

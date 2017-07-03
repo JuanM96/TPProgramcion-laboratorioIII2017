@@ -39,7 +39,7 @@ class empleado
             $consulta->bindValue(':dni', $this->dni, PDO::PARAM_STR);
             $consulta->bindValue(':password', $this->password, PDO::PARAM_STR);
             $consulta->bindValue(':admin', $this->admin, PDO::PARAM_STR);
-            $consulta->bindValue(':suspendido', $this->suspendido, PDO::PARAM_BOOL);
+            $consulta->bindValue(':suspendido', $this->suspendido, PDO::PARAM_INT);
             $itsOk = $consulta->execute();
         }
         if ($itsOk) {
@@ -108,8 +108,8 @@ class empleado
     public static function LogInVerificar($dni,$password){
         $objetoAccesoDatos = AccesoDatos::DameUnObjetoAcceso();
         $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT `ID` AS id, `Nombre` AS nombre, `Apellido` AS apellido, `Email` AS email, `Dni` AS dni, `Password` AS password, `admin`, `suspendido`  FROM empleado WHERE Dni = :dni AND Password = :password");
-        $consulta->bindValue(':dni', $this->dni, PDO::PARAM_STR);
-        $consulta->bindValue(':password', $this->password, PDO::PARAM_STR);
+        $consulta->bindValue(':dni', $dni, PDO::PARAM_STR);
+        $consulta->bindValue(':password', $password, PDO::PARAM_STR);
         $consulta->setFetchMode(PDO::FETCH_CLASS, "empleado");
         if ($consulta->execute() && $ret['empleado'] = $consulta->fetch()) {
             $ret['logIn'] = true;
@@ -130,8 +130,8 @@ class empleado
         // }
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
         $consulta =$objetoAccesoDato->RetornarConsulta("UPDATE `empleado` SET suspendido = :suspendido WHERE dni = :dni");
-        $consulta->bindValue(':suspendido', $suspender, PDO::PARAM_BOOL);
-        $consulta->bindValue(':dni', $this->dni, PDO::PARAM_INT);
+        $consulta->bindValue(':suspendido', $suspender, PDO::PARAM_INT);
+        $consulta->bindValue(':dni', $this->dni, PDO::PARAM_INT);        
         $ret['consulta'] = $consulta->execute();
         if ($suspender) {
             $ret['resultado'] = "Suspendido";
@@ -152,6 +152,7 @@ class empleado
         else{
             $ret['resultado'] = "Empleado Inexistente";
         }
+		return $ret;
     }
 
 

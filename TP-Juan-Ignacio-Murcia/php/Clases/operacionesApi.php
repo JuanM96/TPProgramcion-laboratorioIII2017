@@ -15,7 +15,7 @@ class OperacionApi
             $box = new box($ArrayDeParametros['idBox'],$ArrayDeParametros['patente'],$ArrayDeParametros['idPiso']);
             if ($box->Guardar()['resultado']) {
                 //$operacion = new operacion($ArrayDeParametros['idBox'],$ArrayDeParametros['idPiso'],$ArrayDeParametros['idEmpleado'],$vehiculo->id);
-                return $response->withJson(operacion::Guardar($ArrayDeParametros['idBox'],$ArrayDeParametros['idPiso'],$ArrayDeParametros['idEmpleado'],$vehiculo->ID()));
+                return $response->withJson(operacion::Guardar($ArrayDeParametros['idBox'],$ArrayDeParametros['idPiso'],$ArrayDeParametros['idEmpleado'],Vehiculo::IDTraer($ArrayDeParametros['patente'])));
             }
         }
         else{
@@ -25,14 +25,14 @@ class OperacionApi
 		//return $response->withJson($ArrayDeParametros);
     }
     public function FinalizarOperacion($request, $response, $args){
+		$ArrayDeParametros = $request->getParsedBody();
         $patente = $ArrayDeParametros['patente'];
-        $ret = $response->withJson(operacion::Salida($patente));
-        if (is_int($ret)) {
-            $operacion = operacion::TraerOperacionPorPatente($patente);
-            Box::Borrar($operacion->idBox,$operacion->idPiso);
+        $ret = operacion::Salida($patente);
+        if ($ret['resultado']) {
+            Box::Borrar($patente);
             Vehiculo::Borrar($patente);
-            return $ret;
         }
+		return $response->withJson($ret);
     }
     public function TraerOperaciones($request, $response, $args){
         return $response->withJson(operacion::TraerTodasoperaciones());
