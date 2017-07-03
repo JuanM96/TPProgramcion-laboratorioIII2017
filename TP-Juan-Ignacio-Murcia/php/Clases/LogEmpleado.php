@@ -17,18 +17,15 @@ class logEmpleado
     }
     public function Guardar(){
         $itsOk = false;
-        $existebox = $this->Verificarbox();
-        if ($existebox['resultado'] == false) {
             $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
 		    $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO `logempleado`(`dni`, `logIn`)VALUES (:dni,NOW())");
 		    $consulta->bindValue(':dni', $this->dni, PDO::PARAM_INT);
             $itsOk = $consulta->execute();
-        }
         if ($itsOk) {
-            $ret['resultado'] = "Correcto";
+            $ret['resultado'] = true;
         }
         else {
-            $ret['resultado'] = "ERROR";
+            $ret['resultado'] = false;
         }
         return $ret;	
     }

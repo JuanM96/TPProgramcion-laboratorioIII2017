@@ -45,7 +45,7 @@ class box
     }
     public static function TraerTodosBoxesLibres(){
         $ret = array();
-        $est= Estacionamiento::TraerEstacionamientoPorid(0);
+        $est= Estacionamiento::TraerEstacionamientoPorid(1);
         for ($i=1; $i <= $est->cantPisos; $i++) {
             $piso['pisoNum'] = $i;
             $piso['boxesLibres'] = array();

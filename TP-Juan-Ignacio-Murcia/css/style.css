@@ -12,7 +12,9 @@ body {
 	min-width: 985px;
  
 }
-
+.centrar {
+text-align: center;
+}
 .alert-success{    color: #ffffff;
     background-color: #dff7d9;
     border-color: #ebccd1;}.alert-danger hr{border-top-color:#e4b9c0}

@@ -33,7 +33,7 @@ class EmpleadoApi
         $dni = $ArrayDeParametros['dni'];
         $password = $ArrayDeParametros['password'];
         $ret = empleado::LogInVerificar($dni,$password);
-        if ($ret['resultado']){
+        if ($ret['logIn']){
             $logEmpleado = new logEmpleado($dni);
             $logEmpleado->Guardar();
         }

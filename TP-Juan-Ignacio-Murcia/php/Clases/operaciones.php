@@ -151,7 +151,7 @@ class operacion
     public static function TraerBoxesAnalizadas(){
         $ret['boxMasUtilizada'] = operacion::BoxMasUltilizada();
         $ret['boxMenosUtilizada'] = operacion::BoxMenosUltilizada();
-        $ret['boxsNuncaUtilizadas'] = operacion::BoxsNuncaUtilizadas();
+        $ret['boxsNuncaUtilizadas'] = operacion::BoxsNuncaUltilizadas();
         return $ret;
     }
     public static function BoxMenosUltilizada(){
