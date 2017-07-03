@@ -30,10 +30,10 @@ class box
             $itsOk = $consulta->execute();
         }
         if ($itsOk) {
-            $ret['resultado'] = "Correcto";
+            $ret['resultado'] = true;
         }
         else {
-            $ret['resultado'] = "ERROR";
+            $ret['resultado'] = false;
         }
         return $ret;	
     }

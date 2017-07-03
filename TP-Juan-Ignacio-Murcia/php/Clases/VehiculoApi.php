@@ -7,7 +7,7 @@ class VehiculoApi
 {
     public function AltaVehiculo($request, $response, $args){
         $ArrayDeParametros = $request->getParsedBody();
-        $vehiculo = new vehiculo($ArrayDeParametros['dueño'],$ArrayDeParametros['patente'],$ArrayDeParametros['marca'],$ArrayDeParametros['color']);
+        $vehiculo = new vehiculo($ArrayDeParametros['duenio'],$ArrayDeParametros['patente'],$ArrayDeParametros['marca'],$ArrayDeParametros['color']);
         return $response->withJson($vehiculo->Guardar());
     }
     public function traerVehiculo($request, $response, $args){

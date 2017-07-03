@@ -31,21 +31,21 @@ $app->group('/empleado', function () {
 
 $app->group('/box', function () {
 
-    $this->post('/alta', \BoxApi::class . ':AltaBox');
+    //$this->post('/alta', \BoxApi::class . ':AltaBox');
     $this->get('/traerBoxesLibres', \BoxApi::class . ':TraerBoxesLibres');
     $this->get('/traerBoxesOcupadas', \BoxApi::class . ':TraerBoxesOcupadas');
 });
 $app->group('/operacion', function () {
 
-    $this->post('/iniciar', \operacionesApi::class . ':AltaOperacion');
-    $this->post('/finalizar', \operacionesApi::class . ':FinalizarOperacion');
-    $this->get('/traerTodas', \operacionesApi::class . ':TraerOperaciones');
-    $this->post('/traerOpPorEmpleado', \operacionesApi::class . ':TraerOperacionesPorEmpleado');
-    $this->post('/traerCantOpPorEmpleado', \operacionesApi::class . ':TraerCantidadOpPorEmpleado');
-    $this->get('/traerBoxesAnalizadas', \operacionesApi::class . ':TraerBoxesAnalizadas');
+    $this->post('/iniciar', \OperacionApi::class . ':AltaOperacion');
+    $this->post('/finalizar', \OperacionApi::class . ':FinalizarOperacion');
+    $this->get('/traerTodas', \OperacionApi::class . ':TraerOperaciones');
+    $this->post('/traerOpPorEmpleado', \OperacionApi::class . ':TraerOperacionesPorEmpleado');
+    $this->post('/traerCantOpPorEmpleado', \OperacionApi::class . ':TraerCantidadOpPorEmpleado');
+    $this->get('/traerBoxesAnalizadas', \OperacionApi::class . ':TraerBoxesAnalizadas');
 });
 $app->group('/vehiculo', function () {
-    $this->post('/alta', \VehiculoApi::class . ':AltaVehiculo');
+    //$this->post('/alta', \VehiculoApi::class . ':AltaVehiculo');
     $this->post('/traerPatente', \VehiculoApi::class . ':traerVehiculo');
 });
 $app->group('/logEmpleado', function () {

@@ -32,12 +32,12 @@ class EmpleadoApi
         $ArrayDeParametros = $request->getParsedBody();
         $dni = $ArrayDeParametros['dni'];
         $password = $ArrayDeParametros['password'];
-        $ret = $response->withJson(Empleado::LogInVerificar($dni,$password));
-        if ($ret['resultado']) {
+        $ret = empleado::LogInVerificar($dni,$password);
+        if ($ret['resultado']){
             $logEmpleado = new logEmpleado($dni);
             $logEmpleado->Guardar();
-            return $ret;
         }
+		return $response->withJson($ret);
     }
     public function traerEmpleados($request, $response, $args){
         return $response->withJson(Empleado::TraerTodosEmpleados());

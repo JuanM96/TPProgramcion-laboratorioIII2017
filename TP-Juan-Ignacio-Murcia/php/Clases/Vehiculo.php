@@ -10,9 +10,12 @@ class Vehiculo
     public $marca;
     public $color;
 
-    function __construct($dueño = null,$patente = null,$marca = null,$color = null)
+    function __construct($dueño = NULL,$patente = NULL,$marca = NULL,$color = NULL,$id = NULL)
     {
-        if ($dueño != null && $patente != null && $marca != null && $color != null) {
+        if ($dueño != NULL && $patente != NULL && $marca != NULL && $color != NULL) {
+			if($id != NULL){
+				$this->id = $id;
+			}
             $this->dueño = $dueño;
             $this->patente = $patente;
             $this->marca = $marca;
@@ -20,23 +23,27 @@ class Vehiculo
         }
 
     }
+	public function ID(){
+		$ret = $this->TraerVehiculoPorPatente($this->patente);
+		return $ret->id;
+	}
     public function Guardar(){
         $itsOk = false;
         $existeVehiculo = $this->VerificarVehiculo();
         if ($existeVehiculo['resultado'] == false) {
             $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		    $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO `vehiculo`(`dueño`, `patente`, `marca`, `color`)VALUES (:dueño,:patente,:marca,:color)");
-		    $consulta->bindValue(':dueño', $this->dueño, PDO::PARAM_STR);
+		    $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO `vehiculo`(`dueño`, `patente`, `marca`, `color`) VALUES (:duenio,:patente,:marca,:color)");
+		    $consulta->bindValue(':duenio', $this->dueño, PDO::PARAM_STR);
             $consulta->bindValue(':patente', $this->patente, PDO::PARAM_STR);
             $consulta->bindValue(':marca', $this->marca, PDO::PARAM_STR);
             $consulta->bindValue(':color', $this->color, PDO::PARAM_STR);
             $itsOk = $consulta->execute();
         }
         if ($itsOk) {
-            $ret['resultado'] = "Correcto";
+            $ret['resultado'] = true;
         }
         else {
-            $ret['resultado'] = "ERROR";
+            $ret['resultado'] = false;
         }
         return $ret;	
     }
@@ -65,6 +72,20 @@ class Vehiculo
         $consulta->bindValue(':patente',$patente, PDO::PARAM_STR);		
 		if($consulta->execute()){
             $ret = "Se Borro el vehiculo Exitosamente.";
+        }
+        return $ret;
+    }
+	public function VerificarVehiculo(){
+        $objetoAccesoDatos = AccesoDatos::DameUnObjetoAcceso();
+        $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM vehiculo WHERE patente = :patente");
+        $consulta->bindValue(':patente', $this->patente, PDO::PARAM_STR);
+        $consulta->setFetchMode(PDO::FETCH_CLASS, "Vehiculo");
+        if ($consulta->execute() && $ret['vehiculo'] = $consulta->fetch()) {
+            $ret['resultado'] = true;
+            
+        }
+        else {
+            $ret['resultado'] = false;
         }
         return $ret;
     }

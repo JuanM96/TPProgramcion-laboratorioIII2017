@@ -8,9 +8,21 @@ class OperacionApi
 {
     public function AltaOperacion($request, $response, $args){
         $ArrayDeParametros = $request->getParsedBody();
-        $vehiculo = Vehiculo::TraerVehiculoPorPatente($ArrayDeParametros['patente']);
-        $operacion = new operacion($ArrayDeParametros['idBox'],$ArrayDeParametros['idPiso'],$ArrayDeParametros['idEmpleado'],$vehiculo->id);
-        return $response->withJson($operacion->Guardar());
+        //$vehiculo = Vehiculo::TraerVehiculoPorPatente($ArrayDeParametros['patente']);
+		$vehiculo = new Vehiculo($ArrayDeParametros['duenio'],$ArrayDeParametros['patente'],$ArrayDeParametros['marca'],$ArrayDeParametros['color']);
+		$itsOk = $vehiculo->Guardar();
+		if ($itsOk['resultado']) {
+            $box = new box($ArrayDeParametros['idBox'],$ArrayDeParametros['patente'],$ArrayDeParametros['idPiso']);
+            if ($box->Guardar()['resultado']) {
+                //$operacion = new operacion($ArrayDeParametros['idBox'],$ArrayDeParametros['idPiso'],$ArrayDeParametros['idEmpleado'],$vehiculo->id);
+                return $response->withJson(operacion::Guardar($ArrayDeParametros['idBox'],$ArrayDeParametros['idPiso'],$ArrayDeParametros['idEmpleado'],$vehiculo->ID()));
+            }
+        }
+        else{
+            $ret['ERROR']="El vehiculo ya se encuentra en el estacionamiento";
+            return $response->withJson($ret);
+        }
+		//return $response->withJson($ArrayDeParametros);
     }
     public function FinalizarOperacion($request, $response, $args){
         $patente = $ArrayDeParametros['patente'];

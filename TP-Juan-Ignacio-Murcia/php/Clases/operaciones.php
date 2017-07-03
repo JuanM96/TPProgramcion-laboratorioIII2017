@@ -17,9 +17,9 @@ class operacion
     public $salida;
     public $costo;
 
-    function __construct($idBox = null ,$idPiso = null ,$idEmpleado = null ,$idVehiculo = null ,$entrada = null ,$salida = null,$costo = null)
+    function __construct($idBox = NULL ,$idPiso = NULL ,$idEmpleado = NULL ,$idVehiculo = NULL ,$entrada = NULL ,$salida = NULL,$costo = NULL)
     {
-        if ($idBox != null  && $idPiso != null  && $idEmpleado != null  && $idVehiculo != null  && $entrada != null  && $salida != null && $costo != null) {
+        if ($idBox != NULL  && $idPiso != NULL  && $idEmpleado != NULL  && $idVehiculo != NULL  && $entrada != NULL  && $salida != NULL && $costo != NULL) {
             $this->idBox = $idBox;
             $this->idPiso = $idPiso;
             $this->idEmpleado = $idEmpleado;
@@ -30,32 +30,32 @@ class operacion
         }
 
     }
-    public function Guardar(){
+    public static function Guardar($idBox,$idPiso,$idEmpleado,$idVehiculo){
         $itsOk = false;
-        $existeoperacion = $this->VerificarOperacion();
-        if ($existeoperacion['resultado'] == false) {
+        //$existeoperacion = $this->VerificarOperacion();
+        //if ($existeoperacion['resultado'] == false) {
             $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		    $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO `operacion`(`idBox`, `idPiso`, `idEmpleado`, `idVehiculo`, `entrada`)VALUES (:idBox,:idPiso,:idEmpleado,:idVehiculo,NOW())");
-		    $consulta->bindValue(':idBox', $this->idBox, PDO::PARAM_STR);
-            $consulta->bindValue(':idPiso', $this->idPiso, PDO::PARAM_STR);
-            $consulta->bindValue(':idEmpleado', $this->idEmpleado, PDO::PARAM_STR);
-            $consulta->bindValue(':idVehiculo', $this->idVehiculo, PDO::PARAM_STR);
+		    $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO `operaciones`(`idBox`, `idPiso`, `idEmpleado`, `idVehiculo`, `entrada`)VALUES (:idBox,:idPiso,:idEmpleado,:idVehiculo,NOW())");
+		    $consulta->bindValue(':idBox', $idBox, PDO::PARAM_INT);
+            $consulta->bindValue(':idPiso', $idPiso, PDO::PARAM_INT);
+            $consulta->bindValue(':idEmpleado', $idEmpleado, PDO::PARAM_INT);
+            $consulta->bindValue(':idVehiculo', $idVehiculo, PDO::PARAM_INT);
             $itsOk = $consulta->execute();
-        }
+        //}
         if ($itsOk) {
-            $ret = "La Operacion Se Guardo Exitosamente";
+            $ret['resultado'] = "La Operacion Se Guardo Exitosamente";
         }
         else {
-            $ret = "ERROR, operacion Ya Existente";
+            $ret['resultado'] = "ERROR, operacion Ya Existente";
         }
         return $ret;
 		
     }
     public function VerificarOperacion(){
         $objetoAccesoDatos = AccesoDatos::DameUnObjetoAcceso();
-        $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM operacion WHERE idBox = :idBox AND idPiso = idPiso AND salida = NULL");
-        $consulta->bindValue(':idBox', $this->idBox, PDO::PARAM_STR);
-        $consulta->bindValue(':idPiso', $this->idPiso, PDO::PARAM_STR);
+        $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM operaciones WHERE idBox = :idBox AND idPiso = idPiso AND salida = NULL");
+        $consulta->bindValue(':idBox', $this->idBox, PDO::PARAM_INT);
+        $consulta->bindValue(':idPiso', $this->idPiso, PDO::PARAM_INT);
         $consulta->setFetchMode(PDO::FETCH_CLASS, "operacion");
         if ($consulta->execute() && $ret['operacion'] = $consulta->fetch()) {
             $ret['resultado'] = true;
@@ -68,15 +68,15 @@ class operacion
     }
     public static function TraerTodasoperaciones(){
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `idBox`, `idPiso`, `idEmpleado`, `idVehiculo`, `entrada`, `salida`, `costo` FROM operacion WHERE 1");
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `idBox`, `idPiso`, `idEmpleado`, `idVehiculo`, `entrada`, `salida`, `costo` FROM operaciones WHERE 1");
 		$consulta->execute();
 		return $consulta->fetchAll(PDO::FETCH_CLASS, 'operacion');
     }
     public static function TraeroperacionPorEmpleado($dni){
         $empleado = empleado::TraerEmpleadoPorDni($dni);
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `idBox`, `idPiso`, `idEmpleado`, `idVehiculo`, `entrada`, `salida`, `costo` FROM operacion WHERE idEmpleado = :idEmpleado");
-        $consulta->bindValue(':idEmpleado',$empleado->id, PDO::PARAM_STR);
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `idBox`, `idPiso`, `idEmpleado`, `idVehiculo`, `entrada`, `salida`, `costo` FROM operaciones WHERE idEmpleado = :idEmpleado");
+        $consulta->bindValue(':idEmpleado',$empleado->id, PDO::PARAM_INT);
 		$consulta->execute();
         $consulta->setFetchMode(PDO::FETCH_CLASS, 'operacion');
 		$operacionBuscado= $consulta->fetch();
@@ -87,13 +87,13 @@ class operacion
         $Vehiculo = Vehiculo::TraerVehiculoPorPatente($patente);
         $objetoAccesoDatos = AccesoDatos::DameUnObjetoAcceso();
         $consulta = $objetoAccesoDatos->RetornarConsulta("UPDATE `operaciones` SET `salida`= NOW() WHERE costo = NULL AND idVehiculo = :idVehiculo");
-        $consulta->bindValue(':idVehiculo', $Vehiculo->id, PDO::PARAM_STR);
+        $consulta->bindValue(':idVehiculo', $Vehiculo->id, PDO::PARAM_INT);
         if ($consulta->execute()) {
             $costo = $this->CalcularCosto($Vehiculo->id,1);
             $objetoAccesoDatos2 = AccesoDatos::DameUnObjetoAcceso();
             $consulta2 = $objetoAccesoDatos->RetornarConsulta("UPDATE `operaciones` SET `costo`= :costo WHERE costo = NULL AND idVehiculo = :idVehiculo");
-            $consulta2->bindValue(':costo', $costo , PDO::PARAM_STR);
-            $consulta2->bindValue(':idVehiculo', $Vehiculo->id, PDO::PARAM_STR);
+            $consulta2->bindValue(':costo', $costo , PDO::PARAM_INT);
+            $consulta2->bindValue(':idVehiculo', $Vehiculo->id, PDO::PARAM_INT);
             if ($consulta2->execute()) {
                 $ret['resultado'] = true;
                 $ret['vehiculo'] = $vehiculo;
@@ -129,8 +129,8 @@ class operacion
     public static function TraerOperacionPorPatente($patente){
         $Vehiculo = Vehiculo::TraerVehiculoPorPatente($patente);
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `idBox`, `idPiso`, `idEmpleado`, `idVehiculo`, `entrada`, `salida`, `costo` FROM operacion WHERE idVehiculo = :idVehiculo AND salida = NULL");
-        $consulta->bindValue(':idVehiculo',$vehiculo->id, PDO::PARAM_STR);
+		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `idBox`, `idPiso`, `idEmpleado`, `idVehiculo`, `entrada`, `salida`, `costo` FROM operaciones WHERE idVehiculo = :idVehiculo AND salida = NULL");
+        $consulta->bindValue(':idVehiculo',$vehiculo->id, PDO::PARAM_INT);
 		$consulta->execute();
         $consulta->setFetchMode(PDO::FETCH_CLASS, 'operacion');
 		$operacionBuscado= $consulta->fetch();
