@@ -26,8 +26,8 @@ class estacionamiento
         if ($existeEstacionamiento['resultado'] == false) {
             $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
 		    $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO `estacionamiento`(`id`, `cantPisos`, `cantBoxXPisos`, `precioXHora`, `precioXMedioDia`, `precioXDia`)VALUES (:id,:cantPisos,:cantBoxXPisos,:precioXHora,:precioXMedioDia,:precioXDia)");
-		    $consulta->bindValue(':id', $this->id, PDO::PARAM_STR);
-            $consulta->bindValue(':cantPisos', $this->cantPisos, PDO::PARAM_INT);
+		    $consulta->bindValue(':id', $this->id, PDO::PARAM_INT);
+            $consulta->bindParam(':cantPisos', $this->cantPisos, PDO::PARAM_INT);
             $consulta->bindValue(':cantBoxXPisos', $this->cantBoxXPisos, PDO::PARAM_INT);
             $consulta->bindValue(':precioXHora', $this->precioXHora, PDO::PARAM_INT);
             $consulta->bindValue(':precioXDia', $this->precioXDia, PDO::PARAM_INT);

@@ -7,7 +7,7 @@ require_once './vendor/autoload.php';
 class EstacionamientoApi
 {
     public function CrearEstacionamiento($request, $response, $args){
-        $est = new estacionamiento($request->getAttribute('cantPisos'),$request->getAttribute('cantBoxXPisos'),$request->getAttribute('precioXHora'),$request->getAttribute('precioXDia'),$request->getAttribute('precioXMedioDia'));
+        $est = new estacionamiento($request->getAttribute('cantPisos'),$request->getAttribute('cantBoxXPisos'),$request->getAttribute('precioXHora'),$request->getAttribute('precioXMedioDia'),$request->getAttribute('precioXDia'));
         $piso = Piso::CrearPisos($request->getAttribute('cantPisos'),$request->getAttribute('cantBoxXPisos'));
         return $response->withJson($est->Guardar());
     }

@@ -24,7 +24,7 @@ class EmpleadoApi
         $empleado = Empleado::TraerEmpleadoPorDni($dni);
         return $response->withJson($empleado->ActualizarEstado());
     }
-    public function Login($request, $response, $args){
+    public function LogIn($request, $response, $args){
         $dni = $request->getAttribute('dni');
         $password = $request->getAttribute('password');
         $ret = $response->withJson(Empleado::LogInVerificar($dni,$password));

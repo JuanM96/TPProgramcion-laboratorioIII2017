@@ -1,7 +1,7 @@
 <?php
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-require_once 'Operacion.php';
+require_once 'operaciones.php';
 require_once 'Vehiculo.php';
 require_once './vendor/autoload.php';
 class OperacionApi
@@ -30,8 +30,8 @@ class OperacionApi
     public function TraerCantidadOpPorEmpleado($request, $response, $args){
         return $response->withJson(operacion::TraerCantOperacionPorEmpleado());
     }
-    public function TraerBoxesAnalisadas($request, $response, $args){
-        return $response->withJson(operacion::TraerBoxesAnalizadas())
+    public function TraerBoxesAnalizadas($request, $response, $args){
+        return $response->withJson(operacion::TraerBoxesAnalizadas());
     }
 }
 ?>
