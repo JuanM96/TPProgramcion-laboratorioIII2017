@@ -11,23 +11,25 @@ class estacionamiento
     public $precioXHora;
     public $precioXDia;
     public $precioXMedioDia;
-    function __construct($id,$cantPisos,$cantBoxXPisos,$precioXHora,$precioXMedioDia,$precioXDia)
+    function __construct($cantPisos = NULL,$cantBoxXPisos = NULL,$precioXHora = NULL,$precioXMedioDia = NULL,$precioXDia = NULL)
     {
-        $this->id = $id;
-        $this->cantPisos = $cantPisos;
-        $this->cantBoxXPisos = $cantBoxXPisos;
-        $this->precioXHora = $precioXHora;
-        $this->precioXMedioDia = $precioXMedioDia;
-        $this->precioXDia = $precioXDia;
+        if ($cantPisos != NULL && $cantBoxXPisos != NULL && $precioXHora != NULL && $precioXMedioDia != NULL && $precioXDia != NULL) {
+            $this->cantPisos = $cantPisos;
+            $this->cantBoxXPisos = $cantBoxXPisos;
+            $this->precioXHora = $precioXHora;
+            $this->precioXMedioDia = $precioXMedioDia;
+            $this->precioXDia = $precioXDia;
+        }
+
+
     }
     public function Guardar(){
         $itsOk = false;
         $existeEstacionamiento = $this->VerificarEstacionamiento();
         if ($existeEstacionamiento['resultado'] == false) {
             $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
-		    $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO `estacionamiento`(`id`, `cantPisos`, `cantBoxXPisos`, `precioXHora`, `precioXMedioDia`, `precioXDia`)VALUES (:id,:cantPisos,:cantBoxXPisos,:precioXHora,:precioXMedioDia,:precioXDia)");
-		    $consulta->bindValue(':id', $this->id, PDO::PARAM_INT);
-            $consulta->bindParam(':cantPisos', $this->cantPisos, PDO::PARAM_INT);
+		    $consulta =$objetoAccesoDato->RetornarConsulta("INSERT INTO `estacionamiento`(`cantPisos`, `cantBoxXPisos`, `precioXHora`, `precioXMedioDia`, `precioXDia`) VALUES (:cantPisos , :cantBoxXPisos , :precioXHora , :precioXMedioDia , :precioXDia)");
+            $consulta->bindValue(':cantPisos', $this->cantPisos, PDO::PARAM_INT);
             $consulta->bindValue(':cantBoxXPisos', $this->cantBoxXPisos, PDO::PARAM_INT);
             $consulta->bindValue(':precioXHora', $this->precioXHora, PDO::PARAM_INT);
             $consulta->bindValue(':precioXDia', $this->precioXDia, PDO::PARAM_INT);

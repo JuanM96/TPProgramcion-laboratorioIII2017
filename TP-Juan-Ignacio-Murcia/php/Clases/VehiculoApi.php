@@ -6,11 +6,13 @@ require_once './vendor/autoload.php';
 class VehiculoApi
 {
     public function AltaVehiculo($request, $response, $args){
-        $vehiculo = new vehiculo($request->getAttribute('dueño'),$request->getAttribute('patente'),$request->getAttribute('marca'),$request->getAttribute('color'));
+        $ArrayDeParametros = $request->getParsedBody();
+        $vehiculo = new vehiculo($ArrayDeParametros['dueño'],$ArrayDeParametros['patente'],$ArrayDeParametros['marca'],$ArrayDeParametros['color']);
         return $response->withJson($vehiculo->Guardar());
     }
     public function traerVehiculo($request, $response, $args){
-        return $response->withJson(vehiculo::TraerVehiculoPorPatente($request->getAttribute('patente')));
+        $ArrayDeParametros = $request->getParsedBody();
+        return $response->withJson(vehiculo::TraerVehiculoPorPatente($ArrayDeParametros['patente']));
     }
     
 }

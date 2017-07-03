@@ -8,10 +8,13 @@ class Piso
     public $id;
     public $cantBox;
 
-    function __construct($id,$cantBox)
+    function __construct($id = null,$cantBox = null)
     {
-        $this->id = $id;
-        $this->cantBox = $cantBox;
+        if ($id != null && $cantBox != null) {
+            $this->id = $id;
+            $this->cantBox = $cantBox;
+        }
+       
     }
     private function Guardar(){
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 

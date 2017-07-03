@@ -9,11 +9,14 @@ class box
     public $id;
     public $patente;
     public $piso;
-    function __construct($id,$patente,$piso)
+    function __construct($id = null ,$patente = null ,$piso = null)
     {
-        $this->id = $id;
-        $this->patente = $patente;
-        $this->piso = $piso;        
+        if ($id != null && $patente != null && $piso != null) {
+            $this->id = $id;
+            $this->patente = $patente;
+            $this->piso = $piso;        
+        }
+
     }
     public function Guardar(){
         $itsOk = false;

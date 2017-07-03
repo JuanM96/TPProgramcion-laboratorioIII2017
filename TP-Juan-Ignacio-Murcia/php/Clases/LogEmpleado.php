@@ -8,9 +8,12 @@ class logEmpleado
 {
     public $dni;
     public $logIn;
-    function __construct($dni)
+    function __construct($dni = null)
     {
-        $this->dni = $dni;
+        if ($dni != null) {
+            $this->dni = $dni;
+        }
+
     }
     public function Guardar(){
         $itsOk = false;

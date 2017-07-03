@@ -9,7 +9,8 @@ class LogEmpleadoApi
         return $response->withJson(Box::TraerTodosLog());
     }
     public function TraerLogsPorDni($request, $response, $args){
-        return $response->withJson(Box::TraerLogPorDni($request->getAttribute('dni')));
+        $ArrayDeParametros = $request->getParsedBody();
+        return $response->withJson(Box::TraerLogPorDni($ArrayDeParametros['dni']));
     }
 }
 ?>

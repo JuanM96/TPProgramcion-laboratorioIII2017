@@ -6,7 +6,8 @@ require_once './vendor/autoload.php';
 class BoxApi
 {
     public function AltaBox($request, $response, $args){
-        $box = new box($request->getAttribute('id'),$request->getAttribute('patente'),$request->getAttribute('piso'));
+        $ArrayDeParametros = $request->getParsedBody();
+        $box = new box($ArrayDeParametros['id'],$ArrayDeParametros['patente'],$ArrayDeParametros['piso']);
         return $response->withJson($box->Guardar());
     }
     public function TraerBoxesLibres($request, $response, $args){

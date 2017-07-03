@@ -17,14 +17,14 @@ class operacion
     public $salida;
     public $costo;
 
-    function __construct($idBox,$idPiso,$idEmpleado,$idVehiculo,$entrada,$salida = null,$costo = null)
+    function __construct($idBox = null ,$idPiso = null ,$idEmpleado = null ,$idVehiculo = null ,$entrada = null ,$salida = null,$costo = null)
     {
-        $this->idBox = $idBox;
-        $this->idPiso = $idPiso;
-        $this->idEmpleado = $idEmpleado;
-        $this->idVehiculo = $idVehiculo;
-        $this->entrada = $entrada;
-        if ($salida != null && $costo != null) {
+        if ($idBox != null  && $idPiso != null  && $idEmpleado != null  && $idVehiculo != null  && $entrada != null  && $salida != null && $costo != null) {
+            $this->idBox = $idBox;
+            $this->idPiso = $idPiso;
+            $this->idEmpleado = $idEmpleado;
+            $this->idVehiculo = $idVehiculo;
+            $this->entrada = $entrada;
             $this->salida = $salida;
             $this->costo = $costo;
         }
@@ -168,6 +168,7 @@ class operacion
         return json_encode($box);
     }
     public static function BoxsNuncaUltilizadas(){
+        $est = estacionamiento::TraerEstacionamientoPorid(1);
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
 		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT O.idPiso,O.idBox, COUNT(O.id) AS cantidad FROM `operaciones` AS O GROUP BY O.idPiso,O.idBox");
 		$consulta->execute();

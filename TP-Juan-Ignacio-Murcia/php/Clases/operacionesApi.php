@@ -7,12 +7,13 @@ require_once './vendor/autoload.php';
 class OperacionApi
 {
     public function AltaOperacion($request, $response, $args){
-        $vehiculo = Vehiculo::TraerVehiculoPorPatente($request->getAttribute('patente'));
-        $operacion = new operacion($request->getAttribute('idBox'),$request->getAttribute('idPiso'),$request->getAttribute('idEmpleado'),$vehiculo->id);
+        $ArrayDeParametros = $request->getParsedBody();
+        $vehiculo = Vehiculo::TraerVehiculoPorPatente($ArrayDeParametros['patente']);
+        $operacion = new operacion($ArrayDeParametros['idBox'],$ArrayDeParametros['idPiso'],$ArrayDeParametros['idEmpleado'],$vehiculo->id);
         return $response->withJson($operacion->Guardar());
     }
     public function FinalizarOperacion($request, $response, $args){
-        $patente = $request->getAttribute('patente');
+        $patente = $ArrayDeParametros['patente'];
         $ret = $response->withJson(operacion::Salida($patente));
         if (is_int($ret)) {
             $operacion = operacion::TraerOperacionPorPatente($patente);
@@ -25,7 +26,7 @@ class OperacionApi
         return $response->withJson(operacion::TraerTodasoperaciones());
     }
     public function TraerOperacionesPorEmpleado($request, $response, $args){
-        return $response->withJson(operacion::TraeroperacionPorEmpleado($request->getAttribute('dni')));
+        return $response->withJson(operacion::TraeroperacionPorEmpleado($ArrayDeParametros['dni']));
     }
     public function TraerCantidadOpPorEmpleado($request, $response, $args){
         return $response->withJson(operacion::TraerCantOperacionPorEmpleado());

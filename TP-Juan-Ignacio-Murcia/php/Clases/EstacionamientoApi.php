@@ -7,12 +7,15 @@ require_once './vendor/autoload.php';
 class EstacionamientoApi
 {
     public function CrearEstacionamiento($request, $response, $args){
-        $est = new estacionamiento($request->getAttribute('cantPisos'),$request->getAttribute('cantBoxXPisos'),$request->getAttribute('precioXHora'),$request->getAttribute('precioXMedioDia'),$request->getAttribute('precioXDia'));
-        $piso = Piso::CrearPisos($request->getAttribute('cantPisos'),$request->getAttribute('cantBoxXPisos'));
+        $ArrayDeParametros = $request->getParsedBody();
+        $est = new estacionamiento($ArrayDeParametros['cantPisos'],$ArrayDeParametros['cantBoxXPiso'],$ArrayDeParametros['precioXHora'],$ArrayDeParametros['precioXMedioDia'],$ArrayDeParametros['precioXDia']);
+        //$response->getBody()->write(var_dump($ArrayDeParametros));
+        //$piso = Piso::CrearPisos($ArrayDeParametros['cantPisos'],$ArrayDeParametros['cantBoxXPiso']);
+        //echo $request->getAttribute('cantPisos');
         return $response->withJson($est->Guardar());
     }
     public function TraerEstacionamientoPorid($request, $response, $args){
-        return $response->withJson(estacionamient::TraerEstacionamientoPorid(1));
+        return $response->withJson(estacionamiento::TraerEstacionamientoPorid(1));
     }
 }
 ?>

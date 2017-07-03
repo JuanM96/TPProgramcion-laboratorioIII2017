@@ -14,15 +14,18 @@ class empleado
     public $admin;
     public $suspendido;
 
-    function __construct($nom,$apellido,$email,$dni,$pass,$admin,$suspendido)
+    function __construct($nom = null,$apellido = null,$email = null,$dni = null,$pass = null,$admin = null,$suspendido)
     {
-        $this->nombre = $nom;
-        $this->apellido = $apellido;
-        $this->email = $email;
-        $this->dni = $dni;
-        $this->password = $pass;
-        $this->admin = $admin;
-        $this->suspendido = $suspendido;
+        if ($nom != null && $apellido != null && $email != null && $dni != null && $pass != null && $admin != null && $suspendido != null) {
+            $this->nombre = $nom;
+            $this->apellido = $apellido;
+            $this->email = $email;
+            $this->dni = $dni;
+            $this->password = $pass;
+            $this->admin = $admin;
+            $this->suspendido = $suspendido;
+        }
+
     }
     public function Guardar(){
         $itsOk = false;

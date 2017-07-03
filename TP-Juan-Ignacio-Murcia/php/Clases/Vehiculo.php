@@ -10,12 +10,15 @@ class Vehiculo
     public $marca;
     public $color;
 
-    function __construct($dueño,$patente,$marca,$color)
+    function __construct($dueño = null,$patente = null,$marca = null,$color = null)
     {
-        $this->dueño = $dueño;
-        $this->patente = $patente;
-        $this->marca = $marca;
-        $this->color = $color;
+        if ($dueño != null && $patente != null && $marca != null && $color != null) {
+            $this->dueño = $dueño;
+            $this->patente = $patente;
+            $this->marca = $marca;
+            $this->color = $color;
+        }
+
     }
     public function Guardar(){
         $itsOk = false;

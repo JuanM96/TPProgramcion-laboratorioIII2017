@@ -7,26 +7,31 @@ require_once './vendor/autoload.php';
 class EmpleadoApi
 {
     public function AltaEmpleado($request, $response, $args){
-        $Empleado = new empleado($request->getAttribute('nombre'),$request->getAttribute('apellido'),$request->getAttribute('email'),$request->getAttribute('dni'),$request->getAttribute('password'),$request->getAttribute('admin'),$request->getAttribute('suspendido'));
+        $ArrayDeParametros = $request->getParsedBody();
+        $Empleado = new empleado($ArrayDeParametros['nombre'],$ArrayDeParametros['apellido'],$ArrayDeParametros['email'],$ArrayDeParametros['dni'],$ArrayDeParametros['password'],$ArrayDeParametros['admin'],$ArrayDeParametros['suspendido']);
         return $response->withJson($Empleado->Guardar());
     }
     public function ModificarEmpleado($request, $response, $args){
-        $dniBuscado = $request->getAttribute('dniBuscado');
-        $Empleado = new empleado($request->getAttribute('nombre'),$request->getAttribute('apellido'),$request->getAttribute('email'),$request->getAttribute('dni'),$request->getAttribute('password'),$request->getAttribute('admin'),$request->getAttribute('suspendido'));
+        $ArrayDeParametros = $request->getParsedBody();
+        $dniBuscado = $ArrayDeParametros['dniBuscado'];
+        $Empleado = new empleado($ArrayDeParametros['nombre'],$ArrayDeParametros['apellido'],$ArrayDeParametros['email'],$ArrayDeParametros['dni'],$ArrayDeParametros['password'],$ArrayDeParametros['admin'],$ArrayDeParametros['suspendido']);
         return $response->withJson(Empleado::Modificar($Empleado,$dniBuscado));
     }
     public function BajaEmpleado($request, $response, $args){
-        $dni = $request->getAttribute('dni');
+        $ArrayDeParametros = $request->getParsedBody();
+        $dni = $ArrayDeParametros['dni'];
         return $response->withJson(Empleado::Despedir($dni));
     }
     public function ActualizarEstadoEmpleado($request, $response, $args){
-        $dni = $request->getAttribute('dni');
+        $ArrayDeParametros = $request->getParsedBody();
+        $dni = $ArrayDeParametros['dni'];
         $empleado = Empleado::TraerEmpleadoPorDni($dni);
         return $response->withJson($empleado->ActualizarEstado());
     }
     public function LogIn($request, $response, $args){
-        $dni = $request->getAttribute('dni');
-        $password = $request->getAttribute('password');
+        $ArrayDeParametros = $request->getParsedBody();
+        $dni = $ArrayDeParametros['dni'];
+        $password = $ArrayDeParametros['password'];
         $ret = $response->withJson(Empleado::LogInVerificar($dni,$password));
         if ($ret['resultado']) {
             $logEmpleado = new logEmpleado($dni);
@@ -38,7 +43,8 @@ class EmpleadoApi
         return $response->withJson(Empleado::TraerTodosEmpleados());
     }
     public function traerEmpleadoPorDni($request, $response, $args){
-        return $response->withJson(Empleado::TraerEmpleadoPorDni($request->getAttribute('dni')));
+        $ArrayDeParametros = $request->getParsedBody();
+        return $response->withJson(Empleado::TraerEmpleadoPorDni($ArrayDeParametros['dni']));
     }
 }
 ?>
