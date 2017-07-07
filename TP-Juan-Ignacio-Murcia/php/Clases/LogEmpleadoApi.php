@@ -6,11 +6,11 @@ require_once './vendor/autoload.php';
 class LogEmpleadoApi
 {
     public function TraerLogs($request, $response, $args){
-        return $response->withJson(Box::TraerTodosLog());
+        return $response->withJson(LogEmpleado::TraerTodosLog());
     }
     public function TraerLogsPorDni($request, $response, $args){
         $ArrayDeParametros = $request->getParsedBody();
-        return $response->withJson(Box::TraerLogPorDni($ArrayDeParametros['dni']));
+        return $response->withJson(LogEmpleado::TraerLogPorDni($ArrayDeParametros['dni']));
     }
 }
 ?>

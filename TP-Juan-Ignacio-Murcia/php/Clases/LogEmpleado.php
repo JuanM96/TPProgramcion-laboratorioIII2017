@@ -33,7 +33,7 @@ class logEmpleado
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
 		$consulta =$objetoAccesoDato->RetornarConsulta("SELECT `dni`, `logIn` FROM `logempleado` WHERE 1");
 		$consulta->execute();
-		return $consulta->fetchAll(PDO::FETCH_CLASS, 'logIn');
+		return $consulta->fetchAll(PDO::FETCH_CLASS, 'logEmpleado');
     }
     public static function TraerLogPorDni($dni){
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 

@@ -107,7 +107,7 @@ class empleado
     }
     public static function LogInVerificar($dni,$password){
         $objetoAccesoDatos = AccesoDatos::DameUnObjetoAcceso();
-        $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT `ID` AS id, `Nombre` AS nombre, `Apellido` AS apellido, `Email` AS email, `Dni` AS dni, `Password` AS password, `admin`, `suspendido`  FROM empleado WHERE Dni = :dni AND Password = :password");
+        $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT `ID` AS id, `Nombre` AS nombre, `Apellido` AS apellido, `Email` AS email, `Dni` AS dni, `Password` AS password, `admin`, `suspendido`  FROM empleado WHERE Dni = :dni AND Password = :password AND suspendido = 0");
         $consulta->bindValue(':dni', $dni, PDO::PARAM_STR);
         $consulta->bindValue(':password', $password, PDO::PARAM_STR);
         $consulta->setFetchMode(PDO::FETCH_CLASS, "empleado");

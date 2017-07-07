@@ -70,9 +70,8 @@ class box
     }
     public function Verificarbox(){
         $objetoAccesoDatos = AccesoDatos::DameUnObjetoAcceso();
-        $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM `box` WHERE id = :id AND patente = :patente AND piso = :piso");
+        $consulta = $objetoAccesoDatos->RetornarConsulta("SELECT * FROM `box` WHERE id = :id AND piso = :piso");
         $consulta->bindValue(':id', $this->id, PDO::PARAM_INT);
-        $consulta->bindValue(':patente', $this->patente, PDO::PARAM_INT);
         $consulta->bindValue(':piso', $this->piso, PDO::PARAM_INT);
         $consulta->setFetchMode(PDO::FETCH_CLASS, "box");
         if ($consulta->execute() && $ret['box'] = $consulta->fetch()) {
@@ -94,6 +93,7 @@ class box
         }
         return $ret;
     }
+
 
     
 }

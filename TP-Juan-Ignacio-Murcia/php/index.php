@@ -1,7 +1,6 @@
 <?php
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-
 require 'vendor/autoload.php';
 require 'clases/AccesoDatos.php';
 require 'clases/EmpleadoApi.php';
@@ -30,8 +29,6 @@ $app->group('/empleado', function () {
 });
 
 $app->group('/box', function () {
-
-    //$this->post('/alta', \BoxApi::class . ':AltaBox');
     $this->get('/traerBoxesLibres', \BoxApi::class . ':TraerBoxesLibres');
     $this->get('/traerBoxesOcupadas', \BoxApi::class . ':TraerBoxesOcupadas');
 });
@@ -41,11 +38,10 @@ $app->group('/operacion', function () {
     $this->post('/finalizar', \OperacionApi::class . ':FinalizarOperacion');
     $this->get('/traerTodas', \OperacionApi::class . ':TraerOperaciones');
     $this->post('/traerOpPorEmpleado', \OperacionApi::class . ':TraerOperacionesPorEmpleado');
-    $this->post('/traerCantOpPorEmpleado', \OperacionApi::class . ':TraerCantidadOpPorEmpleado');
+    $this->get('/traerCantOpPorEmpleado', \OperacionApi::class . ':TraerCantidadOpPorEmpleado');
     $this->get('/traerBoxesAnalizadas', \OperacionApi::class . ':TraerBoxesAnalizadas');
 });
 $app->group('/vehiculo', function () {
-    //$this->post('/alta', \VehiculoApi::class . ':AltaVehiculo');
     $this->post('/traerPatente', \VehiculoApi::class . ':traerVehiculo');
 });
 $app->group('/logEmpleado', function () {

@@ -9,17 +9,23 @@ class OperacionApi
     public function AltaOperacion($request, $response, $args){
         $ArrayDeParametros = $request->getParsedBody();
         //$vehiculo = Vehiculo::TraerVehiculoPorPatente($ArrayDeParametros['patente']);
-		$vehiculo = new Vehiculo($ArrayDeParametros['duenio'],$ArrayDeParametros['patente'],$ArrayDeParametros['marca'],$ArrayDeParametros['color']);
-		$itsOk = $vehiculo->Guardar();
-		if ($itsOk['resultado']) {
-            $box = new box($ArrayDeParametros['idBox'],$ArrayDeParametros['patente'],$ArrayDeParametros['idPiso']);
-            if ($box->Guardar()['resultado']) {
-                //$operacion = new operacion($ArrayDeParametros['idBox'],$ArrayDeParametros['idPiso'],$ArrayDeParametros['idEmpleado'],$vehiculo->id);
-                return $response->withJson(operacion::Guardar($ArrayDeParametros['idBox'],$ArrayDeParametros['idPiso'],$ArrayDeParametros['idEmpleado'],Vehiculo::IDTraer($ArrayDeParametros['patente'])));
-            }
+		$box = new box($ArrayDeParametros['idBox'],$ArrayDeParametros['patente'],$ArrayDeParametros['idPiso']);
+		if(!$box->VerificarBox()['resultado']){
+			$vehiculo = new Vehiculo($ArrayDeParametros['duenio'],$ArrayDeParametros['patente'],$ArrayDeParametros['marca'],$ArrayDeParametros['color']);
+			$itsOk = $vehiculo->Guardar();
+			if ($itsOk['resultado']) {
+				if ($box->Guardar()['resultado']) {
+					//$operacion = new operacion($ArrayDeParametros['idBox'],$ArrayDeParametros['idPiso'],$ArrayDeParametros['idEmpleado'],$vehiculo->id);
+					return $response->withJson(operacion::Guardar($ArrayDeParametros['idBox'],$ArrayDeParametros['idPiso'],$ArrayDeParametros['idEmpleado'],Vehiculo::IDTraer($ArrayDeParametros['patente'])));
+				}
+			}
+			else{
+				$ret['ERROR']="El vehiculo ya se encuentra en el estacionamiento";
+				return $response->withJson($ret);
+			}
         }
         else{
-            $ret['ERROR']="El vehiculo ya se encuentra en el estacionamiento";
+            $ret['ERROR']="El Lugar ya esta ocupado";
             return $response->withJson($ret);
         }
 		//return $response->withJson($ArrayDeParametros);
