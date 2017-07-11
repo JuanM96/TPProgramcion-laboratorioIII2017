@@ -1,28 +1,28 @@
 $(document).ready(function (){
-    /*$("#inicio").onclick(function (){
+    $("#inicio").click(function (){
+        $('#right_block').text("");
+    });
+    $("#estado").click(function (){
+
+    });
+    $("#entVehiculo").click(function (){
+        $('#right_block').html("<form><div class='form-group'><label for='dueño_id' class='control-label'>Dueño del auto</label><input type='text' class='form-control' id='dueño_id' name='dueño' placeholder='Nombre del dueño del auto'>    </div>    <div class='form-group'>        <label for='patente_id' class='control-label'>Patente</label>        <input type='text' class='form-control' id='patente_id' name='patente' placeholder='####-000'></div><div class='form-group'><label for='marca_id' class='control-label'>Marca</label><input type='text' class='form-control' id='marca_id' name='marca' placeholder='Marca'></div><div class='form-group'><label for='color_id' class='control-label'>Color</label><input type='text' class='form-control' id='color_id' name='color' placeholder='Color'></div><div class='form-group'><label for='numBox_id' class='control-label'>Num box</label><input type='text' class='form-control' id='numBox_id' name='NumBox' placeholder='Numero de box'></div><div class='form-group'><label for='numPiso_id' class='control-label'>Num Piso</label><input type='text' class='form-control' id='numPiso_id' name='NumPiso' placeholder='Numero de Piso'></div><div class='form-group'><label for='dni_id' class='control-label'>Dni Empleado</label><input type='text' class='form-control' id='dni_id' name='dni' placeholder='Dni'></div><div class='form-group'><button type='submit' class='btn btn-primary' onclick = estacionar()>Estacionar</button></div></form>");        
+    });
+    $("#salVehiculo").click(function (){
         
     });
-    $("#estado").onclick(function (){
+    $("#admin").click(function (){
         
     });
-    $("#entVehiculo").onclick(function (){
+    $("#administrar").click(function (){
         
     });
-    $("#salVehiculo").onclick(function (){
+    $("#altaEmpleado").click(function (){
         
     });
-    $("#admin").onclick(function (){
+    $("#bajaEmpelado").click(function (){
         
     });
-    $("#administrar").onclick(function (){
-        
-    });
-    $("#altaEmpleado").onclick(function (){
-        
-    });
-    $("#bajaEmpelado").onclick(function (){
-        
-    });*/
     window.onload=show5
 });
 function show5()
@@ -64,4 +64,28 @@ function show5()
     else if (document.getElementById)
         document.getElementById("liveclock").innerHTML = myclock
     setTimeout("show5()", 1000)
+}
+
+function estacionar(){
+    var datapost= {
+        dueño: $('#dueño_id').val(),
+        patente: $('#patente_id').val(),
+        marca: $('#marca_id').val(),
+        color: $('#color_id').val(),
+        numBox: $('#numBox_id').val(),
+        numPiso: $('#numPiso_id').val(),
+        dni: $('#dni_id').val()
+    }
+    $.ajax({
+        url: 'php/operacion/iniciar',
+        type: 'POST',
+        data: datapost,
+        dataType: 'json',
+    })
+    .done(function(data){
+        alert(data['resultado'])
+    })
+    .fail(function(data){
+        alert("ERROR AL ESTACIONAR"+data)
+    })
 }
