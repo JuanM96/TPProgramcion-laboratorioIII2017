@@ -145,7 +145,7 @@ class empleado
         $objetoAccesoDato = AccesoDatos::DameUnObjetoAcceso(); 
         $consulta =$objetoAccesoDato->RetornarConsulta("DELETE FROM `empleado` WHERE dni = :dni");
         $consulta->bindValue(':dni', $dni, PDO::PARAM_BOOL);
-        if($consulta->execute())
+        if($consulta->execute()&& $consulta->rowCount() == 0)
         {
             $ret['resultado'] = "Despedido!";
         }
