@@ -11,7 +11,8 @@ class box
     public $piso;
     function __construct($id = null ,$patente = null ,$piso = null)
     {
-        if ($id != null && $patente != null && $piso != null) {
+        if ($patente != null && $piso != null) {
+			
             $this->id = $id;
             $this->patente = $patente;
             $this->piso = $piso;        

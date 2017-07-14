@@ -42,7 +42,7 @@ $app->group('/empleado', function () {
 $app->group('/box', function () {
     $this->get('/traerBoxesLibres', \BoxApi::class . ':TraerBoxesLibres');
     $this->get('/traerBoxesOcupadas', \BoxApi::class . ':TraerBoxesOcupadas');
-})->add(\verificarJWT::class . ':VerificarToken')->add(\verificarJWT::class . ':VerificarTokenAdmin');
+})->add(\verificarJWT::class . ':VerificarToken');
 
 $app->group('/operacion', function () {
     $this->post('/iniciar', \OperacionApi::class . ':AltaOperacion');

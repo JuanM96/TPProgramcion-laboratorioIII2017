@@ -14,17 +14,22 @@ class empleado
     public $admin;
     public $suspendido;
 
-    function __construct($nom = null,$apellido = null,$email = null,$dni = null,$pass = null,$admin = null,$suspendido = null)
+    function __construct($nom = null,$apellido = null,$email = null,$dni = null,$pass = null,$admin = null,$suspendido = null,$id = null)
     {
-        if ($nom != null && $apellido != null && $email != null && $dni != null && $pass != null && $admin != null && $suspendido != null) {
+        if ($nom != null && $apellido != null && $email != null && $dni != null && $pass != null) {
             $this->nombre = $nom;
             $this->apellido = $apellido;
             $this->email = $email;
             $this->dni = $dni;
             $this->password = $pass;
-            $this->admin = $admin;
-            $this->suspendido = $suspendido;
         }
+		if($admin != null && $suspendido != null){
+			$this->admin = $admin;
+            $this->suspendido = $suspendido;
+		}
+		if($id != null){
+			$this->id = $id;
+		}
 
     }
     public function Guardar(){
@@ -147,10 +152,10 @@ class empleado
         $consulta->bindValue(':dni', $dni, PDO::PARAM_BOOL);
         if($consulta->execute()&& $consulta->rowCount() == 0)
         {
-            $ret['resultado'] = "Despedido!";
+            $ret['resultado'] = "Empleado Inexistente";
         }
         else{
-            $ret['resultado'] = "Empleado Inexistente";
+            $ret['resultado'] = "Despedido!";
         }
 		return $ret;
     }
